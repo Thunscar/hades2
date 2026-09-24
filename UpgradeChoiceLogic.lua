@@ -1028,7 +1028,8 @@ function HandleUpgradeChoiceSelection( screen, button, args )
 	local spawnTarget = nil
 	local duplicateOnClose = false
 	local name = source.Name
-	if source.CanDuplicate and RandomChance( GetTotalHeroTraitValue("DoubleRewardChance") * GetTotalHeroTraitValue( "LuckMultiplier", { IsMultiplier = true })) then
+	-- mod: minor rewards always duplicate, no DoubleRewardChance roll needed
+	if source.CanDuplicate then
 		duplicateOnClose = true
 		spawnTarget = SpawnObstacle({ Name = "InvisibleTarget", Group = "Standing", DestinationId = source.ObjectId })
 	end

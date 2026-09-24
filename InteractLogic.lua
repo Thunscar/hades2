@@ -1095,7 +1095,8 @@ function UseConsumableItem( consumableItem, args, user )
 		thread(MarkObjectiveComplete, consumableItem.CompleteObjective )
 	end
 
-	local willDuplicate = consumableItem.CanDuplicate and RandomChance( GetTotalHeroTraitValue( "DoubleRewardChance" ) * GetTotalHeroTraitValue( "LuckMultiplier", { IsMultiplier = true } ) )
+	-- mod: minor rewards always duplicate, no DoubleRewardChance roll needed
+	local willDuplicate = consumableItem.CanDuplicate
 
 	if consumableItem.UseFunctionName ~= nil then
 		CallFunctionName( consumableItem.UseFunctionName, consumableItem.UseFunctionArgs, consumableItem, { WillDuplicate = willDuplicate } )
