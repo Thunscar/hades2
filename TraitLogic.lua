@@ -1908,6 +1908,24 @@ function SetTraitsOnLoot( lootData, args )
 		end
 	end
 
+	-- mod: guarantee one eligible Duo boon; skipped when Duo chance is 0 (BlockRarities, forced-Common curse, non-god loot)
+	local hasDuoOption = false
+	for i, upgradeData in pairs( upgradeOptions ) do
+		if upgradeData.Rarity == "Duo" then
+			hasDuoOption = true
+			break
+		end
+	end
+	if not hasDuoOption and TableLength( upgradeOptions ) < GetTotalLootChoices() and not IsEmpty( rarityTable.Duo )
+		and lootData.RarityChances ~= nil and ( lootData.RarityChances.Duo or 0 ) > 0 then
+		local duoUpgrade = GetRandomValue( rarityTable.Duo )
+		duoUpgrade.Rarity = "Duo"
+		table.insert( upgradeOptions, duoUpgrade )
+		for rarityName in pairs( TraitRarityData.RarityValues ) do
+			rarityTable[rarityName][duoUpgrade.ItemName] = nil
+		end
+	end
+
 	-- fill rest with eligible traits
 	for i = TableLength(upgradeOptions), GetTotalLootChoices() - 1 do
 		local validRarities = {}
