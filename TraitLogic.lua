@@ -1730,6 +1730,7 @@ function SetTransformingTraitsOnLoot( lootData, upgradeChoiceData )
 
 		table.insert( upgradeOptions, upgradeData )
 	end
+	UpgradeLootOptionsToHeroic( lootData, upgradeOptions )
 	lootData.UpgradeOptions = upgradeOptions
 end
 
@@ -1988,7 +1989,23 @@ function SetTraitsOnLoot( lootData, args )
 		end
 	end
 	lootData.BlockReroll = blockReroll
+	UpgradeLootOptionsToHeroic( lootData, upgradeOptions )
 	lootData.UpgradeOptions = upgradeOptions
+end
+
+-- mod: raise every offered boon to Heroic when the trait supports it; never downgrades Legendary/Duo/Perfect
+-- keeps forced-Common penalties (ChaosCommonCurse, first-run tutorial) and skips hammers/poms, which are always forced Common
+function UpgradeLootOptionsToHeroic( lootData, upgradeOptions )
+	if IsRarityForcedCommon( lootData.Name ) then
+		return
+	end
+	local heroicValue = TraitRarityData.RarityValues.Heroic
+	for i, upgradeData in pairs( upgradeOptions ) do
+		local traitData = TraitData[upgradeData.ItemName]
+		if traitData ~= nil and traitData.RarityLevels ~= nil and traitData.RarityLevels.Heroic ~= nil and GetRarityValue( upgradeData.Rarity ) < heroicValue then
+			upgradeData.Rarity = "Heroic"
+		end
+	end
 end
 
 function ExtractValues( unit, topLevelTable, curTable, depth )
