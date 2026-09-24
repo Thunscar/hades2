@@ -19,7 +19,8 @@ function EquipMetaUpgradeCardPresentation( screen, button )
 	
 	local newIds = {}
 	if not IsEmpty(screen.CostRingIds) then
-		for i = GetCurrentMetaUpgradeCost() + 1, GetCurrentMetaUpgradeCost() + cardCost do
+		-- mod: only 30 bones exist (Mem_Bone_In_1..30)
+		for i = GetCurrentMetaUpgradeCost() + 1, math.min( GetCurrentMetaUpgradeCost() + cardCost, MetaUpgradeCostData.ModMaxDisplayedMetaUpgradeCost ) do
 			local currentRingId = screen.CostRingIds[i]
 			table.insert(newIds, i)
 		end
@@ -83,7 +84,8 @@ function UpgradeMetaUpgradeLimitPresentation( screen, button )
 	local components = screen.Components
 	CreateAnimation({ Name = "SkillProcFeedbackFx", DestinationId = screen.Components.MaxCostText.Id, GroupName = "Overlay" })
 	Flash({ Id = button.Id, Speed = 4, MinFraction = 0.5, MaxFraction = 0, Color = Color.Red, Duration = 0.125, ExpireAfterCycle = true })
-	local maxMetaUpgradeCost = GetMaxMetaUpgradeCost()
+	-- mod: use the real grasp so the final-upgrade sound and new-bone fx track actual progress (BonePositions only has 1..30)
+	local maxMetaUpgradeCost = GetBaseMaxMetaUpgradeCost()
 	if maxMetaUpgradeCost >= 29 then
 		PlaySound({ Name = "/SFX/Menu Sounds/MirrorCloseWithUpgrade", Id = button.Id })
 	else

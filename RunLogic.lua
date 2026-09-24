@@ -300,7 +300,7 @@ function GameStateInit()
 
 	GameState.EasyModeLevel = GameState.EasyModeLevel or 0
 
-	GameState.MaxMetaUpgradeCostCache = GameState.MaxMetaUpgradeCostCache or GetMaxMetaUpgradeCost()
+	GameState.MaxMetaUpgradeCostCache = GameState.MaxMetaUpgradeCostCache or GetBaseMaxMetaUpgradeCost() -- mod: cache keeps the real grasp
 	GameState.MetaUpgradeCostCache = GameState.MetaUpgradeCostCache or 0
 
 	GameState.GamePhase = GameState.GamePhase or GamePhaseData.StartingGamePhase

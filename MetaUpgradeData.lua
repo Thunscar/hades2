@@ -29,6 +29,8 @@ MetaUpgradeSwapGameStateRequirement =
 MetaUpgradeCostData = 
 {
 	StartingMetaUpgradeLimit = 10,		-- Base metaupgrade 'MEM' limit
+	ModBonusMetaUpgradeLimit = 26,		-- mod: extra grasp for equipping only (30 + 26 = 56 = all cards); story/achievements still read the real value
+	ModMaxDisplayedMetaUpgradeCost = 30,	-- mod: ring art / BonePositions only exist up to 30
 	MetaUpgradeLevelData = 
 	{
 		{ CostIncrease = 2, ResourceCost = { MemPointsCommon = 30 }},

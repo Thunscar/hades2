@@ -702,9 +702,11 @@ function UpdateMetaUpgradeCostText( screen, nextIncrease )
 	screen.CostPipIds = screen.CostPipIds or {}
 	Destroy({Ids = screen.CostPipIds })
 	screen.CostPipIds = {}
-	for i = 1, maxCost do
+	-- mod: ring segment art only exists up to 30, so cap the drawn ring; the text still shows the real maxCost
+	local ringCount = math.min( maxCost, MetaUpgradeCostData.ModMaxDisplayedMetaUpgradeCost )
+	for i = 1, ringCount do
 		local currentRingId = CreateScreenObstacle({ Name = "BlankObstacle", DestinationId = components.PipRingTarget.Id, Group = "Combat_Menu" })
-		SetAnimation({ Name = string.format("RingSegment_%02d_%02d", maxCost, i), DestinationId = currentRingId})
+		SetAnimation({ Name = string.format("RingSegment_%02d_%02d", ringCount, i), DestinationId = currentRingId})
 		if i <= currentCost then
 			SetColor({ Id = currentRingId, Color = Color.MEMBlue})
 		else
@@ -797,7 +799,8 @@ function UpdateMetaUpgradeUnlockedCountCache()
 	GameState.MetaUpgradeMaxLevelCountCache = numMaxUpgrades
 end
 
-function GetMaxMetaUpgradeCost()
+-- mod: real grasp from upgrades only; this is what GameState.MaxMetaUpgradeCostCache (story/achievement checks) stores
+function GetBaseMaxMetaUpgradeCost()
 	local metaUpgradeLimit = MetaUpgradeCostData.StartingMetaUpgradeLimit
 	for i = 1, GetCurrentMetaUpgradeLimitLevel() do
 		if MetaUpgradeCostData.MetaUpgradeLevelData[i] then
@@ -806,6 +809,11 @@ function GetMaxMetaUpgradeCost()
 	end
 	GameState.MaxMetaUpgradeCostCache = metaUpgradeLimit
 	return metaUpgradeLimit
+end
+
+-- mod: equip limit = real grasp + bonus
+function GetMaxMetaUpgradeCost()
+	return GetBaseMaxMetaUpgradeCost() + ( MetaUpgradeCostData.ModBonusMetaUpgradeLimit or 0 )
 end
 
 function UpdateMetaUpgradeCostDisplay( screen, button )
