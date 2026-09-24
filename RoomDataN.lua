@@ -703,6 +703,19 @@ RoomSetData.N =
 					},
 				},
 			},
+			-- mod: fallback to Daedalus Hammer when no story reward is forced; also in RoomDataF
+			{
+				Name = "WeaponUpgrade",
+				GameStateRequirements =
+				{
+					{
+						PathTrue = { "GameState", "UseRecord", "WeaponUpgrade" },
+					},
+					{
+						PathFalse = { "CurrentRun", "ActiveBounty" },
+					},
+				},
+			},
 		},
 
 		StartUnthreadedEvents =
