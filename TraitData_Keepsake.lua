@@ -40,7 +40,7 @@ TraitSetData.Keepsakes =
 			"TraitLevel_Keepsake4",
 		},
 		RecordCacheOnEquip = true,
-		ChamberThresholds =  { 25, 50 },
+		ChamberThresholds =  { 5, 10 }, -- mod: was { 25, 50 }; must stay > 0 (GetKeepsakeProgress divides by it)
 		InfoBackingAnimation = "KeepsakeSlotBase",
 		DebugOnly = true,
 
