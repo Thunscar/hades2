@@ -2127,7 +2127,7 @@ RerollCosts =
 	SellTrait = 1,
 	Talent = 1,
 	Hammer = 1, -- mod: was -1 (Disabled)
-	ReuseIncrement = 1,
+	ReuseIncrement = 0, -- mod: was 1, reroll cost no longer increases on repeated use
 }
 
 MetaUpgradeCardRarityIcons =
