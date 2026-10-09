@@ -54,6 +54,22 @@ function EnterNextDreamBiome( source, args )
 			ForcedEntranceFunctionName = "RoomEntranceDreamBiomeStart",
 		},
 	}
+	-- mod: first dream biome (entered from Hypnos; later biomes pass SkipChooseReward) gets the Daedalus Hammer once hammers are unlocked
+	-- ChooseRoomReward reads args.ForcedRewards; none of the G/H/I/O/P/Q intro rooms define their own ForcedRewards
+	if not args.SkipChooseReward then
+		chooseRoomArgs.ForcedRewards =
+		{
+			{
+				Name = "WeaponUpgrade",
+				GameStateRequirements =
+				{
+					{
+						PathTrue = { "GameState", "UseRecord", "WeaponUpgrade" },
+					},
+				},
+			},
+		}
+	end
 	local nextRoom = ChooseStartingRoom( CurrentRun, chooseRoomArgs )
 	LeaveRoom( CurrentRun, { Room = nextRoom } )
 
