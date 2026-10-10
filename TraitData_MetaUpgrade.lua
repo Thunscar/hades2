@@ -1201,7 +1201,7 @@
 	{
 		InheritFrom = {"MetaUpgradeTrait" },
 		CustomTrayText = "MetaToRunMetaUpgrade_Tray",
-		MetaConversionUses = { BaseValue = 1 },
+		MetaConversionUses = { BaseValue = 100 }, -- mod: was 1; scaled by card level (x1/x2/x3)
 		ExtractValues = 
 		{
 			{
